@@ -8,6 +8,7 @@ vim.g.have_nerd_font = true
 
 -- Make line numbers default
 vim.opt.number = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -15,19 +16,8 @@ vim.opt.mouse = 'a'
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
--- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
-
 -- Enable break indent
 vim.opt.breakindent = true
-
--- Save undo history
-vim.opt.undofile = true
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
@@ -55,10 +45,6 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
 
--- Show which line your cursor is on
--- vim.opt.cursorline = true
-vim.opt.relativenumber = true
-
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
@@ -74,8 +60,13 @@ vim.opt.backup = false
 vim.opt.undodir = os.getenv 'HOME' .. '/.vim/undodir'
 vim.opt.undofile = true
 
--- Stay in indent mode, not sure if I like this
+-- Tabs
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
 
+-- Stay in indent mode, not sure if I like this
 vim.keymap.set('v', '<', '<gv', { desc = 'Indent Left' })
 vim.keymap.set('v', '>', '>gv', { desc = 'Indent Right' })
 
@@ -85,11 +76,15 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
 -- Replace word on
 vim.keymap.set('n', '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
--- [[ Basic Keymaps ]]
---  See `:help vim.keymap.set()`
+
+-- Clipboard Buffer stuff
+vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
+vim.keymap.set({ 'n', 'v' }, '<leader>Y', [["+Y]])
+vim.keymap.set({ 'n', 'v' }, 'y', '"zy', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'p', '"zp', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<leader>P', '"p', { noremap = true, silent = true })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
---  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
