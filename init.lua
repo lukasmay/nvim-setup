@@ -1,4 +1,3 @@
--- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
@@ -6,11 +5,6 @@ vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
-
--- [[ Setting options ]]
--- See `:help vim.opt`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
 
 -- Make line numbers default
 vim.opt.number = true
@@ -68,6 +62,29 @@ vim.opt.relativenumber = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Search Improvements
+vim.opt.incsearch = true
+
+-- Smart indent
+vim.opt.smartindent = true
+
+-- History
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undodir = os.getenv 'HOME' .. '/.vim/undodir'
+vim.opt.undofile = true
+
+-- Stay in indent mode, not sure if I like this
+
+vim.keymap.set('v', '<', '<gv', { desc = 'Indent Left' })
+vim.keymap.set('v', '>', '>gv', { desc = 'Indent Right' })
+
+-- Moving highlighted stuff around
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+
+-- Replace word on
+vim.keymap.set('n', '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -107,10 +124,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
-
--- Stay in indent mode
-vim.keymap.set('v', '<', '<gv', { desc = 'Indent Left' })
-vim.keymap.set('v', '>', '>gv', { desc = 'Indent Right' })
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
