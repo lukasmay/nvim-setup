@@ -79,6 +79,9 @@ vim.keymap.set({ 'n', 'v' }, 'y', '"zy', { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, 'p', '"zp', { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, '<leader>P', '"p', { noremap = true, silent = true })
 
+-- Undotree
+vim.keymap.set('n', '<leader><F5>', vim.cmd.UndotreeToggle)
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
@@ -126,7 +129,7 @@ require('lazy').setup {
   'tpope/vim-sleuth',
   'nvim-lualine/lualine.nvim',
   'vim-test/vim-test',
-  'mbbill/undotree', -- TODO: Add key mapping to pull this up
+  'mbbill/undotree',
 
   {
     'bash-lsp/bash-language-server',
