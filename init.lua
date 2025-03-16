@@ -1,4 +1,3 @@
--- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -15,9 +14,6 @@ vim.opt.mouse = 'a'
 
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
-
--- Enable break indent
-vim.opt.breakindent = true
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
@@ -51,16 +47,15 @@ vim.opt.scrolloff = 10
 -- Search Improvements
 vim.opt.incsearch = true
 
--- Smart indent
-vim.opt.smartindent = true
-
 -- History
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undodir = os.getenv 'HOME' .. '/.vim/undodir'
 vim.opt.undofile = true
 
--- Tabs
+-- Indent
+vim.opt.breakindent = true
+vim.opt.smartindent = true
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
@@ -99,19 +94,12 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
--- [[ Basic Autocommands ]]
---  See `:help lua-guide-autocommands`
-
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
+-- Text yank highlighting
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
@@ -120,7 +108,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -132,17 +119,11 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
---  To check the current status of your plugins, run
---    :Lazy
---  To update plugins you can run
---    :Lazy update
---
--- NOTE: Here is where you install your plugins.
+-- NOTE: Install plugins here
 require('lazy').setup {
   { import = 'plugins' },
 
-  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automaticall
+  'tpope/vim-sleuth',
   'nvim-lualine/lualine.nvim',
   'vim-test/vim-test',
   'mbbill/undotree', -- TODO: Add key mapping to pull this up
@@ -158,6 +139,18 @@ require('lazy').setup {
   --     'nvim-lua/plenary.nvim',
   --   },
   -- },
+
+  { -- NOTE: This needs to be here
+    'folke/lazydev.nvim',
+    ft = 'lua',
+    opts = {
+      library = {
+        -- Load luvit types when the `vim.uv` word is found
+        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+      },
+    },
+  },
 }
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- # vim: ts=4 sw=4 sts=4 et

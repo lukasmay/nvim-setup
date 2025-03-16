@@ -34,7 +34,6 @@ return { -- Autoformat
       lua = { 'stylua' },
       -- c = { 'astyle' },
       -- python = { "isort", "black", stop_after_first = true },
-
     },
   },
 }
