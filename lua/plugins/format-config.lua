@@ -30,10 +30,16 @@ return { -- Autoformat
         lsp_format = lsp_format_opt,
       }
     end,
-    formatters_by_ft = {
-      lua = { 'stylua' },
-      -- c = { 'astyle' },
-      -- python = { "isort", "black", stop_after_first = true },
+  },
+  formatters_by_ft = {
+    lua = { 'stylua' },
+    -- java = { 'checkstyle' },
+    python = { 'isort', 'black' },
+  },
+
+  formatters = {
+    black = {
+      prepend_args = { '--fast' },
     },
   },
 }
