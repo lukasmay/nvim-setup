@@ -80,7 +80,7 @@ vim.keymap.set({ 'n', 'v' }, 'p', '"zp', { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, '<leader>P', '"p', { noremap = true, silent = true })
 
 -- Undotree
-vim.keymap.set('n', '<leader><F5>', vim.cmd.UndotreeToggle)
+vim.keymap.set('n', '<leader><F5>', vim.cmd.UndotreeToggle, { desc = 'UndotreeToggle' })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -104,55 +104,55 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- Text yank highlighting
 vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
+    desc = 'Highlight when yanking (copying) text',
+    group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+    callback = function()
+        vim.highlight.on_yank()
+    end,
 })
 
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-  local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
-  if vim.v.shell_error ~= 0 then
-    error('Error cloning lazy.nvim:\n' .. out)
-  end
+    local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
+    local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
+    if vim.v.shell_error ~= 0 then
+        error('Error cloning lazy.nvim:\n' .. out)
+    end
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 -- NOTE: Install plugins here
 require('lazy').setup {
-  { import = 'plugins' },
+    { import = 'plugins' },
 
-  'tpope/vim-sleuth',
-  'nvim-lualine/lualine.nvim',
-  'vim-test/vim-test',
-  'mbbill/undotree',
+    'tpope/vim-sleuth',
+    'nvim-lualine/lualine.nvim',
+    'vim-test/vim-test',
+    'mbbill/undotree',
 
-  {
-    'bash-lsp/bash-language-server',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-  },
-
-  -- {
-  --   'shellcheck-nvim/shellcheck.nvim',
-  --   dependencies = {
-  --     'nvim-lua/plenary.nvim',
-  --   },
-  -- },
-
-  { -- NOTE: This needs to be here
-    'folke/lazydev.nvim',
-    ft = 'lua',
-    opts = {
-      library = {
-        -- Load luvit types when the `vim.uv` word is found
-        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-      },
+    {
+        'bash-lsp/bash-language-server',
+        dependencies = { 'nvim-lua/plenary.nvim' },
     },
-  },
+
+    -- {
+    --   'shellcheck-nvim/shellcheck.nvim',
+    --   dependencies = {
+    --     'nvim-lua/plenary.nvim',
+    --   },
+    -- },
+
+    { -- NOTE: This needs to be here
+        'folke/lazydev.nvim',
+        ft = 'lua',
+        opts = {
+            library = {
+                -- Load luvit types when the `vim.uv` word is found
+                { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+            },
+        },
+    },
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`

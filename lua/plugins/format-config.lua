@@ -35,11 +35,16 @@ return { -- Autoformat
     lua = { 'stylua' },
     -- java = { 'checkstyle' },
     python = { 'isort', 'black' },
+    bash = { 'beautysh' },
   },
 
   formatters = {
     black = {
       prepend_args = { '--fast' },
+    },
+    beautysh = {
+      command = 'beautysh',
+      args = {},
     },
   },
 }
