@@ -17,13 +17,14 @@ return {
       harpoon:list():add()
     end)
 
-    vim.keymap.set('n', '<C-A>', function()
+    vim.keymap.set('n', '<C-S-A>', function()
       harpoon:list():remove()
     end)
 
     vim.keymap.set('n', '<C-t>', function()
       harpoon:list():select(1)
     end)
+
     vim.keymap.set('n', '<C-y>', function()
       harpoon:list():select(2)
     end)
